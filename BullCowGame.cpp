@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
-#include "FBUllCowGame.h"
+#include "BullCowGame.h"
 #include <map>
 
 //Unreal coding standards require int32 instead of int, etc.
