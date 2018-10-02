@@ -4,20 +4,21 @@
 */
 
 #pragma once
+
 #include <string>
 
-//Unreal coding standards require int32 instead of int, etc.
+// Unreal coding standards require int32 instead of int, etc.
 using FString = std::string;
 using int32 = int;
 
-//data type for bulls and cows container
+// Data type for bulls and cows container
 struct FBullCowCount
 {
 	int32 Bulls = 0;
 	int32 Cows = 0;
 };
 
-// defines error messages
+// Defines error messages
 enum class EGuessStatus 
 {
 	Invalid_Status,
@@ -36,9 +37,9 @@ enum class EGuessStatus
 class FBullCowGame
 {
 public:
-	FBullCowGame(); // constructor
+	FBullCowGame(); // Constructor
 	void Reset();
-	// counts bulls and cows and increments try number assuming valid guess
+	// Counts bulls and cows and increments try number assuming valid guess
 	FBullCowCount SubmitValidGuess(FString);
 	int32 GetHiddenWordLength() const;
 	int32 GetMaxTries() const;

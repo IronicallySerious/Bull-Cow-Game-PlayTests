@@ -5,64 +5,63 @@
 
 #pragma once
 
-#include "stdafx.h"
 #include <iostream>
 #include <string>
-#include "FBUllCowGame.h"
+#include "BullCowGame.h"
 #include <map>
 #define TMap std::map
 
-//Unreal coding standards require int32 instead of int, etc.
+// Unreal coding standards require int32 instead of int, etc.
 using FText = std::string; 
 using int32 = int;
-FBullCowGame BCGame; // instantiate a game object
+FBullCowGame BCGame; // Instantiate a game object
 
-// prototypes________________________Begin
+// Prototypes________________________Begin
 void PrintIntro();
 void PrintGameSummary();
 FString SelectWordLength();
 void PlayGame();
 FText GetValidGuess();
 bool AskToPlayAgain();
-// prototypes________________________End
+// Prototypes________________________End
 
  // Entry Point 
 int main()
 {
 	bool bPlayAgain = false;
-	do{
+	do {
 		PrintIntro();
 		PlayGame();
 		bPlayAgain = AskToPlayAgain();
 		std::cout << std::endl;
-	}while(bPlayAgain);
+	} while(bPlayAgain);
 
-	return 0; //exit the application
+	return 0; // Exit the application
 }
 
 void PrintIntro()
 {
-	// introduce the game
+	// Introduce the game
 	std::cout << "\n\nWelcome to Bulls and Cows" << std::endl;
 	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter isogram I'm thinking of?\n" << std::endl;
 	return;
 }
 
-//loop continually until valid guess is put
+// Loop continually until valid guess is put
 FText GetValidGuess()
 {	
 	FText Guess = "";
 	EGuessStatus Status = EGuessStatus::Invalid_Status;
 	do
 	{
-		//get a guess from player
+		// Get a guess from player
 		int CurrentTry = BCGame.GetCurrentTry();
 		std::cout << "\nTry " << CurrentTry<< " of "<< BCGame.GetMaxTries();
 
 		std::cout << ". Enter a guess : ";
 		std::getline(std::cin, Guess);
 
-		//check if the Guess is a valid one. Run tests and report back any errors
+		// Check if the Guess is a valid one. Run tests and report back any errors
 		Status = BCGame.CheckGuessValidity(Guess);
 		switch(Status)
 		{
@@ -76,10 +75,11 @@ FText GetValidGuess()
 				std::cout << "Please enter your guess in lowercase.\n";
 				break;
 			default:
-				//Asssuming the guess is valid as all checks have been exhausted
+				// Asssuming the guess is valid as all checks have been exhausted
 				return Guess;
 		}
-	}while(Status != EGuessStatus::OK);   // Keep looping till no error comes
+	} while(Status != EGuessStatus::OK);   // Keep looping till no error comes
+	
 	return Guess;
 }
 
@@ -92,19 +92,19 @@ bool AskToPlayAgain()
 	return (Response[0] == 'y') || (Response[0] == 'Y');
 }
 
-// plays a single game session to completion
+// Plays a single game session to completion
 void PlayGame()
 {
 	BCGame.Reset();
 	int32 MaxTries = BCGame.GetMaxTries();
-	// loop asking for guesses while game is NOT won
-	// and there are tries remaining
-	// loop for the number of turns asking for guesses
+	// Loop asking for guesses while game is NOT won
+	// And there are tries remaining
+	// Loop for the number of turns asking for guesses
 	while((!BCGame.IsGameWon()) && (BCGame.GetCurrentTry() <= MaxTries))
 	{
 		FText Guess = GetValidGuess(); 
 		
-		// submit valid guess to the game and receives number of bulls and cows
+		// Submit valid guess to the game and receives number of bulls and cows
 		FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
 		
 		std::cout << "Bulls = " << BullCowCount.Bulls;
